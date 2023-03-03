@@ -7,18 +7,17 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-    <h1 style="text-align: center">Task List</h1>
-    <nav>
-        <ul style="text-align: center">
-            <li>
-                <a style="text-decoration: none" href="{% url 'task_list' %}">Tasks List</a>
-            </li>
-            <li>
-                <a style="text-decoration: none" href="{% url 'task_create' %}">Create New Task</a>
-            </li>
-        </ul>
-    </nav>
-<div class="container align-content-center">
+<nav class="navbar navbar-light bg-light justify-content-center">
+    <ul class="nav">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'task_list' %}">Tasks List</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'task_create' %}">Create New Task</a>
+      </li>
+    </ul>
+</nav>
+<div class="container align-content-center pt-5">
     {% block content %}{% endblock %}
 </div>
 </body>
