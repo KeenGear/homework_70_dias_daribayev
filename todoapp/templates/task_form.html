@@ -1,14 +1,31 @@
 {% extends 'base.html' %}
 
+
 {% block content %}
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-8">
-        <h2 class="mb-4">{% if task.pk %}Update Task{% else %}Create Task{% endif %}</h2>
+        <h2 class="mb-4">Task Create or Update</h2>
         <form method="POST">
           {% csrf_token %}
-          {{ form.as_p }}
-          <button type="submit" class="btn btn-primary">{% if task.pk %}Update{% else %}Create{% endif %} Task</button>
+          <div class="form-group">
+            {{ form.summary.label_tag }}
+              <br>
+            {{ form.summary }}
+          </div>
+          <div class="form-group">
+            {{ form.description.label_tag }}
+            {{ form.description }}
+          </div>
+          <div class="form-group">
+            {{ form.status.label_tag }}
+            {{ form.status }}
+          </div>
+          <div class="form-group">
+            {{ form.tags.label_tag }}
+            {{ form.tags }}
+          </div>
+          <button type="submit" class="btn btn-primary">Save</button>
         </form>
       </div>
     </div>
