@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <h2 class="mb-4">{% if task.pk %}Update Task{% else %}Create Task{% endif %}</h2>
+        <form method="POST">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <div class="form-group">
+            <label for="id_tags">Tags:</label>
+            <select name="tags" id="id_tags" class="form-control">
+              {% for tag in tags %}
+                <option value="{{ tag.pk }}" {% if tag in task.tags.all %}selected{% endif %}>{{ tag.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary">{% if task.pk %}Update{% else %}Create{% endif %} Task</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,23 @@
+[
+{
+    "model": "todoapp.tag",
+    "pk": 1,
+    "fields": {
+        "name": "Task"
+    }
+},
+{
+    "model": "todoapp.tag",
+    "pk": 2,
+    "fields": {
+        "name": "Bug"
+    }
+},
+{
+    "model": "todoapp.tag",
+    "pk": 3,
+    "fields": {
+        "name": "Enhancement"
+    }
+}
+]

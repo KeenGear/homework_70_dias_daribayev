@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card">
+      <div class="card-header">
+            {{ task.summary }}
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><span class="badge text-bg-light">{{ task.status }}</span></li>
+        <li class="list-group-item">
+            {% for tag in task.tags.all %}
+                <span class="badge text-bg-info">{{ tag.name }}</span>
+            {% endfor %}
+        </li>
+        <li class="list-group-item">{{ task.description }}</li>
+      </ul>
+      <div class="card-body">
+          <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+              <button type="button" class="btn btn-danger">
+                  <a href="{% url 'task_delete' task.pk %}" class="card-link" style="text-decoration: none; color: white">Delete</a>
+              </button>
+              <button type="button" class="btn btn-primary">
+                  <a href="{% url 'task_update' task.pk %}" class="card-link" style="text-decoration: none; color: white">Update</a>
+              </button>
+          </div>
+      </div>
+    </div>
+{% endblock %}
