@@ -22,7 +22,7 @@
             <tr>
                 <td><input type="checkbox" name="selected_tasks" value="{{ task.pk }}"></td>
                 <td>{{ task.summary }}</td>
-                <td>{{ task.description }}</td>
+                <td>{{ task.description|slice:":20" }}</td>
                 <td>
                     <span class="badge text-bg-light">
                         {{ task.status }}
@@ -33,8 +33,8 @@
                     <span class="badge text-bg-info">{{ tag.name }}</span>
                     {% endfor %}
                 </td>
-                <td>{{ task.created_at }}</td>
-                <td>{{ task.updated_at }}</td>
+                    <td>{{ task.created_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
+                    <td>{{ task.updated_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
                 <td>
                     <a href="{% url 'task_detail' task.pk %}" class="btn btn-primary">View</a>
                     <a href="{% url 'task_update' task.pk %}" class="btn btn-secondary">Edit</a>
