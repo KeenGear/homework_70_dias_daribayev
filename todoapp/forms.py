@@ -40,9 +40,16 @@ class ProjectForm(forms.ModelForm):
             'task_id': forms.Select(attrs={'class': 'form-control'}),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+        if start_date and end_date and start_date > end_date:
+            raise forms.ValidationError('End date should be greater than start date.')
+        return cleaned_data
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['task_id'].queryset = Task.objects.all()
         self.fields['task_id'].empty_label = None
         self.fields['task_id'].label = 'Task'
-
