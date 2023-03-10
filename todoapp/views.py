@@ -1,7 +1,7 @@
-from django.core.exceptions import ValidationError
 from django.db.models import Q
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
+
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Task, Project
@@ -64,6 +64,9 @@ class ProjectListView(ListView):
     ordering = 'start_date'
     paginate_by = 5
 
+    def get_queryset(self):
+        return Project.objects.filter(is_deleted=False)
+
 
 class ProjectDetailView(DetailView):
     template_name = 'project/projetc_view.html'
@@ -107,3 +110,19 @@ class ProjectDeleteSelectedView(View):
         selected_projects = request.POST.getlist('selected_projects')
         Project.objects.filter(pk__in=selected_projects).delete()
         return redirect('project_list')
+
+
+class SearchView(ListView):
+    model = Project
+    template_name = 'project/search_results.html'
+    paginate_by = 10
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Project.objects.filter(
+                Q(name__icontains=query) |
+                Q(description__icontains=query)
+            )
+        return Project.objects.none()
+

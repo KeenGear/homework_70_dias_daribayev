@@ -22,6 +22,10 @@
         <a class="nav-link" href="{% url 'project_create' %}">Create New Project</a>
       </li>
     </ul>
+    <form class="d-flex" action="{% url 'search' %}" method="get">
+      <input class="form-control me-2 float-end" type="search" placeholder="Search" aria-label="Search" name="q">
+      <button class="btn btn-outline-primary" type="submit">Search</button>
+    </form>
 </nav>
 <div class="container align-content-center pt-5">
     {% block content %}{% endblock %}
