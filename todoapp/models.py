@@ -23,3 +23,14 @@ class Task(models.Model):
 
     def __str__(self):
         return f'{self.summary}, {self.description} {self.status}'
+
+
+class Project(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+    start_date = models.DateField()
+    end_date = models.DateField(blank=True, null=True)
+    task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.name} - {self.task_id.summary}'
