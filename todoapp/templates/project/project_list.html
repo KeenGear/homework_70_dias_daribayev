@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2 class="mb-3">Projects</h2>
+  <div class="container-table">
+    <form method="POST" action="{% url 'project_delete_selected' %}">
+      {% csrf_token %}
+      <table class="table" style="overflow-y: auto;">
+        <thead>
+          <tr>
+            <th>Select</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Task</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for project in projects %}
+            <tr>
+              <td><input type="checkbox" name="selected_projects" value="{{ project.pk }}"></td>
+              <td>{{ project.name }}</td>
+              <td>{{ project.description }}</td>
+              <td>{{ project.start_date|date:'Y-m-d' }}</td>
+              <td>{{ project.end_date|date:'Y-m-d' }}</td>
+              <td>
+                  <button type="button" class="btn btn-outline-light">
+                        <a href="{% url 'task_detail' project.task_id.pk %} " style="text-decoration: none">{{ project.task_id.summary }}</a>
+                  </button>
+              </td>
+              <td>{{ project.created_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
+              <td>{{ project.updated_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
+              <td>
+                  <button type="button" class="btn btn-primary">
+                        <a href="{% url 'project_detail' project.pk %}" style="text-decoration: none; color: white">View</a>
+                  </button>
+                  <button type="button" class="btn btn-secondary">
+                        <a href="{% url 'project_update' project.pk %}" style="text-decoration: none; color: white">Edit</a>
+                   </button>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <button type="submit" class="btn btn-danger">Delete selected</button>
+    </form>
+  </div>
+  {% if is_paginated %}
+    {% include 'pagination.html' %}
+  {% endif %}
+{% endblock %}

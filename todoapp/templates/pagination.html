@@ -1,0 +1,41 @@
+{% if page_obj.paginator.num_pages > 1 %}
+  <ul class="pagination justify-content-start my-3 pagination-sm">
+    <li class="page-item">
+      <a class="page-link" href="?page=1">Start</a>
+    </li>
+    {% if page_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Back</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Back</span>
+      </li>
+    {% endif %}
+
+    {% for page in page_obj.paginator.page_range %}
+      {% if page_obj.number == page %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">{{ page }}</span>
+        </li>
+      {% else %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page }}">{{ page }}</a>
+        </li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled">
+        <span class="page-link">Next</span>
+      </li>
+    {% endif %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">End &raquo;</a>
+    </li>
+  </ul>
+{% endif %}

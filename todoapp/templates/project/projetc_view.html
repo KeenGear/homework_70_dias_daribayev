@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="card">
+      <div class="card-header">
+            {{ project.name }}
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item"><span class="badge text-bg-light">{{ project.task_id.pk}}</span></li>
+        <li class="list-group-item">{{ project.description }}</li>
+      </ul>
+      <div class="card-body">
+          <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+              <button type="button" class="btn btn-danger">
+                    <a href="{% url 'pr' project.pk %}" style="text-decoration: none; color: white">Delete</a>
+              </button>
+              <button type="button" class="btn btn-primary">
+                        <a href="{% url 'project_update' project.pk %}" style="text-decoration: none; color: white">Edit</a>
+              </button>
+          </div>
+      </div>
+    </div>
+{% endblock %}
