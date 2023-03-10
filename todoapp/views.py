@@ -72,7 +72,7 @@ class ProjectListView(ListView):
 class ProjectCreateView(CreateView):
     model = Project
     form_class = ProjectForm
-    template_name = 'project/project_view.html'
+    template_name = 'project/project_form.html'
     success_url = reverse_lazy('project_list')
 
     def get_context_data(self, **kwargs):
