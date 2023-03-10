@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
@@ -68,16 +69,10 @@ class ProjectListView(ListView):
         return Project.objects.filter(is_deleted=False)
 
 
-class ProjectDetailView(DetailView):
-    template_name = 'project/projetc_view.html'
-    model = Project
-    context_object_name = 'project'
-
-
 class ProjectCreateView(CreateView):
     model = Project
     form_class = ProjectForm
-    template_name = 'project/project_form.html'
+    template_name = 'project/project_view.html'
     success_url = reverse_lazy('project_list')
 
     def get_context_data(self, **kwargs):
@@ -103,6 +98,11 @@ class ProjectDeleteView(DeleteView):
     model = Project
     template_name = 'project/project_confirm_delete.html'
     success_url = reverse_lazy('project_list')
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class ProjectDeleteSelectedView(View):

@@ -32,8 +32,8 @@
               <td>{{ project.created_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
               <td>{{ project.updated_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
               <td>
-                  <button type="button" class="btn btn-primary">
-                        <a href="{% url 'project_detail' project.pk %}" style="text-decoration: none; color: white">View</a>
+                  <button type="button" class="btn btn-danger">
+                        <a href="{% url 'project_delete' project.pk %}" style="text-decoration: none; color: white">Delete</a>
                   </button>
                   <button type="button" class="btn btn-secondary">
                         <a href="{% url 'project_update' project.pk %}" style="text-decoration: none; color: white">Edit</a>

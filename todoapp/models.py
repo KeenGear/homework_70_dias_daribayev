@@ -31,6 +31,15 @@ class Project(models.Model):
     start_date = models.DateField()
     end_date = models.DateField(blank=True, null=True)
     task_id = models.ForeignKey(Task, on_delete=models.CASCADE)
+    is_deleted = models.BooleanField(default=False)
+
+    def delete(self, using=None, keep_parents=False):
+        self.is_deleted = True
+        self.save(using=using)
+
+    def undelete(self):
+        self.is_deleted = False
+        self.save()
 
     def __str__(self):
         return f'{self.name} - {self.task_id.summary}'

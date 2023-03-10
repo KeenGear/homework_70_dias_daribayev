@@ -3,7 +3,7 @@
     "model": "todoapp.tag",
     "pk": 1,
     "fields": {
-        "name": "Task"
+        "name": "Enhancement"
     }
 },
 {
@@ -17,7 +17,7 @@
     "model": "todoapp.tag",
     "pk": 3,
     "fields": {
-        "name": "Enhancement"
+        "name": "Task"
     }
 }
 ]
