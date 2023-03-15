@@ -1,28 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2 class="mb-3">Tasks</h2>
+    <h2 class="mb-3">Tasks</h2>
     <div class="container-table">
         <form method="POST" action="{% url 'task_delete_selected' %}">
             {% csrf_token %}
             <table class="table">
                 <thead>
-                    <tr>
+                <tr>
+                    {% if user.is_superuser %}
                         <th>Select</th>
-                        <th>Summary</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                        <th>Tags</th>
-                        <th>Created at</th>
-                        <th>Updated at</th>
-                        <th>Actions</th>
-                    </tr>
+                    {% endif %}
+                    <th>Summary</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Tags</th>
+                    <th>Created at</th>
+                    <th>Updated at</th>
+                    <th>Actions</th>
+                </tr>
                 </thead>
                 <tbody>
-                    {% for task in tasks %}
+                {% for task in tasks %}
                     <tr>
-                        <td><input type="checkbox" name="selected_tasks" value="{{ task.pk }}"></td>
-                        <td>{{ task.summary|slice:":10"  }}</td>
+                        {% if user.is_superuser %}
+                            <td><input type="checkbox" name="selected_tasks" value="{{ task.pk }}"></td>
+                        {% endif %}
+                        <td>{{ task.summary|slice:":10" }}</td>
                         <td>{{ task.description|slice:":20" }}</td>
                         <td>
                             <span class="badge text-bg-light">
@@ -31,20 +35,24 @@
                         </td>
                         <td>
                             {% for tag in task.tags.all %}
-                            <span class="badge text-bg-info">{{ tag.name }}</span>
+                                <span class="badge text-bg-info">{{ tag.name }}</span>
                             {% endfor %}
                         </td>
-                            <td>{{ task.created_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
-                            <td>{{ task.updated_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
+                        <td>{{ task.created_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
+                        <td>{{ task.updated_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
                         <td>
                             <a href="{% url 'task_detail' task.pk %}" class="btn btn-primary">View</a>
-                            <a href="{% url 'task_update' task.pk %}" class="btn btn-secondary">Edit</a>
+                            {% if user.is_superuser %}
+                                <a href="{% url 'task_update' task.pk %}" class="btn btn-secondary">Edit</a>
+                            {% endif %}
                         </td>
                     </tr>
-                    {% endfor %}
+                {% endfor %}
                 </tbody>
             </table>
-            <button type="submit" class="btn btn-danger">Delete selected</button>
+            {% if user.is_superuser %}
+                <button type="submit" class="btn btn-danger">Delete selected</button>
+            {% endif %}
         </form>
     </div>
     {% if is_paginated %}

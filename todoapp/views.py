@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -23,14 +24,14 @@ class TaskDetailView(DetailView):
     context_object_name = 'task'
 
 
-class TaskCreateView(CreateView):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     form_class = TaskForm
     template_name = 'task_form.html'
     success_url = reverse_lazy('task_list')
 
 
-class TaskUpdateView(UpdateView):
+class TaskUpdateView(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskForm
     template_name = 'task_form.html'
@@ -38,7 +39,7 @@ class TaskUpdateView(UpdateView):
     success_url = reverse_lazy('task_list')
 
 
-class TaskDeleteView(DeleteView):
+class TaskDeleteView(LoginRequiredMixin, DeleteView):
     model = Task
     template_name = 'task_confirm_delete.html'
     success_url = reverse_lazy('task_list')
@@ -51,7 +52,7 @@ class TaskDeleteView(DeleteView):
             return reverse_lazy('task_list')
 
 
-class TaskDeleteSelectedView(View):
+class TaskDeleteSelectedView(LoginRequiredMixin, View):
     def post(self, request):
         selected_tasks = request.POST.getlist('selected_tasks')
         Task.objects.filter(pk__in=selected_tasks).delete()
@@ -69,7 +70,7 @@ class ProjectListView(ListView):
         return Project.objects.filter(is_deleted=False)
 
 
-class ProjectCreateView(CreateView):
+class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     form_class = ProjectForm
     template_name = 'project/project_form.html'
@@ -81,7 +82,7 @@ class ProjectCreateView(CreateView):
         return context
 
 
-class ProjectUpdateView(UpdateView):
+class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     model = Project
     form_class = ProjectForm
     template_name = 'project/project_form.html'
@@ -94,7 +95,7 @@ class ProjectUpdateView(UpdateView):
         return context
 
 
-class ProjectDeleteView(DeleteView):
+class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = 'project/project_confirm_delete.html'
     success_url = reverse_lazy('project_list')
@@ -105,7 +106,7 @@ class ProjectDeleteView(DeleteView):
         return HttpResponseRedirect(self.get_success_url())
 
 
-class ProjectDeleteSelectedView(View):
+class ProjectDeleteSelectedView(LoginRequiredMixin, View):
     def post(self, request):
         selected_projects = request.POST.getlist('selected_projects')
         Project.objects.filter(pk__in=selected_projects).delete()
