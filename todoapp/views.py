@@ -17,6 +17,12 @@ class TaskListView(ListView):
     ordering = 'updated_at'
     paginate_by = 5
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = Task.objects.filter(is_finished=False)
+        context['tasks'] = tasks
+        return context
+
 
 class TaskDetailView(DetailView):
     template_name = 'task_view.html'
@@ -60,7 +66,7 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
 class TaskDeleteSelectedView(LoginRequiredMixin, View):
     def post(self, request):
         selected_tasks = request.POST.getlist('selected_tasks')
-        Task.objects.filter(pk__in=selected_tasks).delete()
+        Task.objects.filter(pk__in=selected_tasks).update(is_finished=True)
         return redirect('task_list')
 
 
@@ -78,6 +84,7 @@ class ProjectListView(ListView):
         context = super().get_context_data(**kwargs)
         for project in context['projects']:
             project.tasks.set(Task.objects.filter(project_id=project.id))
+            Project.objects.filter(is_deleted=False)
         return context
 
 

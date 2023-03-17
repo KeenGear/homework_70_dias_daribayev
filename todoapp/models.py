@@ -24,11 +24,11 @@ class Task(models.Model):
     is_finished = models.BooleanField(default=False)
 
     def delete(self, using=None, keep_parents=False):
-        self.is_deleted = True
+        self.is_finished = True
         self.save(using=using)
 
     def undelete(self):
-        self.is_deleted = False
+        self.is_finished = False
         self.save()
 
     def __str__(self):
