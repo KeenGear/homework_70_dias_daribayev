@@ -2,45 +2,54 @@
 
 
 {% block content %}
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <h2 class="mb-4 text-center">{% if task.pk %}Update Task{% else %}Create Task{% endif %}</h2>
-        <form method="POST">
-          {% csrf_token %}
-          {{ form.non_field_errors }}
-            <div class="form-group mb-3">
-              <input class="form-control" type="text" id="{{ form.summary.id_for_label }}" name="{{ form.summary.name }}" placeholder="Enter a summary" value="{{ form.summary.value|default:'' }}" {% if form.summary.required %}required{% endif %}>
-              {% if form.summary.errors %}
-                <ul class="errorlist">
-                  {% for error in form.summary.errors %}
-                    <li style="color: crimson">{{ error }}</li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <h2 class="mb-4 text-center">{% if task.pk %}Update Task{% else %}Create Task{% endif %}</h2>
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }}
+                    <div class="form-group mb-3">
+                        <input class="form-control" type="text" id="{{ form.summary.id_for_label }}"
+                               name="{{ form.summary.name }}" placeholder="Enter a summary"
+                               value="{{ form.summary.value|default:'' }}"
+                               {% if form.summary.required %}required{% endif %}>
+                        {% if form.summary.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.summary.errors %}
+                                    <li style="color: crimson">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    {{ form.non_field_errors }}
+                    <div class="form-group mb-3">
+                        <textarea class="form-control" id="{{ form.description.id_for_label }}"
+                                  name="{{ form.description.name }}"
+                                  placeholder="Enter a description">{{ form.description.value|default:'' }}</textarea>
+                        {% if form.description.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.description.errors %}
+                                    <li style="color: crimson;">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.status.label_tag }}
+                        {{ form.status }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.tags.label_tag }}
+                        {{ form.tags }}
+                    </div>
+                    <div class="form-group mb-3">
+                        {{ form.project_id.label_tag }}
+                        {{ form.project_id }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </form>
             </div>
-            {{ form.non_field_errors }}
-            <div class="form-group mb-3">
-              <textarea class="form-control" id="{{ form.description.id_for_label }}" name="{{ form.description.name }}" placeholder="Enter a description">{{ form.description.value|default:'' }}</textarea>
-              {% if form.description.errors %}
-                <ul class="errorlist">
-                  {% for error in form.description.errors %}
-                    <li style="color: crimson;">{{ error }}</li>
-                  {% endfor %}
-                </ul>
-              {% endif %}
-            </div>
-          <div class="form-group mb-3">
-            {{ form.status.label_tag }}
-            {{ form.status }}
-          </div>
-          <div class="form-group mb-3">
-            {{ form.tags.label_tag }}
-            {{ form.tags }}
-          </div>
-          <button type="submit" class="btn btn-primary">Save</button>
-        </form>
-      </div>
+        </div>
     </div>
-  </div>
 {% endblock %}

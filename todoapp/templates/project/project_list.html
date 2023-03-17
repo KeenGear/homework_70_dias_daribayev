@@ -29,10 +29,24 @@
                         <td>{{ project.start_date|date:'Y-m-d' }}</td>
                         <td>{{ project.end_date|date:'Y-m-d' }}</td>
                         <td>
-                            <button type="button" class="btn btn-outline-light">
-                                <a href="{% url 'task_detail' project.task_id.pk %} "
-                                   style="text-decoration: none">{{ project.task_id.summary }}</a>
-                            </button>
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    Tasks
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% for  task in project.tasks.all %}
+                                        <li>
+                                            <a href="#" class="dropdown-item">
+                                                {{ task.summary }}
+                                                <span class="badge {% if task.status == 'New' %}bg-primary{% elif task.status == 'In Progress' %}bg-warning{% elif task.status == 'Done' %}bg-success{% endif %}">{{ task.status }}</span>
+                                            </a>
+                                        </li>
+                                    {% empty %}
+                                        <span class="dropdown-item text-muted">No tasks for this project.</span>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </td>
                         <td>{{ project.created_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
                         <td>{{ project.updated_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
@@ -57,7 +71,4 @@
             {% endif %}
         </form>
     </div>
-    {% if is_paginated %}
-        {% include 'pagination.html' %}
-    {% endif %}
 {% endblock %}

@@ -1,6 +1,5 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from django.forms.widgets import DateInput
 from .models import Project
 from .models import Task
 
@@ -8,13 +7,20 @@ from .models import Task
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['summary', 'description', 'status', 'tags']
+        fields = ['summary', 'description', 'status', 'tags', 'project_id']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'status': forms.Select(attrs={'class': 'form-control'}),
             'tags': forms.SelectMultiple(attrs={'class': 'form-control'}),
+            'project_id': forms.Select(attrs={'class': 'form-control'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['project_id'].queryset = Project.objects.all()
+        self.fields['project_id'].empty_label = None
+        self.fields['project_id'].label = 'Project'
 
     def clean_summary(self):
         summary = self.cleaned_data.get('summary')
@@ -32,16 +38,9 @@ class TaskForm(forms.ModelForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['name', 'description', 'start_date', 'end_date', 'task_id']
+        fields = ['name', 'description', 'start_date', 'end_date']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
             'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
-            'task_id': forms.Select(attrs={'class': 'form-control'}),
         }
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['task_id'].queryset = Task.objects.all()
-        self.fields['task_id'].empty_label = None
-        self.fields['task_id'].label = 'Task'

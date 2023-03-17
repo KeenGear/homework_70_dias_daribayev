@@ -51,6 +51,11 @@ class TaskDeleteView(LoginRequiredMixin, DeleteView):
         else:
             return reverse_lazy('task_list')
 
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()
+        return HttpResponseRedirect(self.get_success_url())
+
 
 class TaskDeleteSelectedView(LoginRequiredMixin, View):
     def post(self, request):
@@ -68,6 +73,12 @@ class ProjectListView(ListView):
 
     def get_queryset(self):
         return Project.objects.filter(is_deleted=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for project in context['projects']:
+            project.tasks.set(Task.objects.filter(project_id=project.id))
+        return context
 
 
 class ProjectCreateView(LoginRequiredMixin, CreateView):
@@ -126,4 +137,3 @@ class SearchView(ListView):
                 Q(description__icontains=query)
             )
         return Project.objects.none()
-

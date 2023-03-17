@@ -17,7 +17,7 @@
                     <th>Tags</th>
                     <th>Created at</th>
                     <th>Updated at</th>
-                    <th>Actions</th>
+                    <th>Project</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -29,8 +29,7 @@
                         <td>{{ task.summary|slice:":10" }}</td>
                         <td>{{ task.description|slice:":20" }}</td>
                         <td>
-                            <span class="badge text-bg-light">
-                                {{ task.status }}
+                            <span class="badge {% if task.status == 'New' %}bg-primary{% elif task.status == 'In Progress' %}bg-warning{% elif task.status == 'Done' %}bg-success{% endif %}">{{ task.status }}
                             </span>
                         </td>
                         <td>
@@ -40,6 +39,7 @@
                         </td>
                         <td>{{ task.created_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
                         <td>{{ task.updated_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
+                        <td>{{ task.project_id.name }}</td>
                         <td>
                             <a href="{% url 'task_detail' task.pk %}" class="btn btn-primary">View</a>
                             {% if user.is_superuser %}
