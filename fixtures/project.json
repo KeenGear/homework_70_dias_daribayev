@@ -1,38 +1,26 @@
 [
 {
     "model": "todoapp.project",
-    "pk": 3,
+    "pk": 1,
     "fields": {
-        "name": "Half-Life 2",
-        "description": "asdasdasdasasdas",
-        "start_date": "2023-03-31",
-        "end_date": "2023-05-13",
-        "task_id": 2,
-        "is_deleted": true
-    }
-},
-{
-    "model": "todoapp.project",
-    "pk": 6,
-    "fields": {
-        "name": "asdasd",
-        "description": "asdasd",
-        "start_date": "2023-03-18",
+        "name": "Lorem",
+        "description": "asdasda",
+        "start_date": "2023-03-12",
         "end_date": "2023-03-31",
-        "task_id": 2,
-        "is_deleted": false
+        "is_deleted": false,
+        "tasks_id": []
     }
 },
 {
     "model": "todoapp.project",
-    "pk": 7,
+    "pk": 2,
     "fields": {
-        "name": "zxcz",
-        "description": "zxczxcz",
-        "start_date": "2023-03-03",
-        "end_date": "2023-03-18",
-        "task_id": 2,
-        "is_deleted": false
+        "name": "New Project 101",
+        "description": "dasdmlaksmdlkas",
+        "start_date": "2023-01-01",
+        "end_date": "2023-03-31",
+        "is_deleted": false,
+        "tasks_id": []
     }
 }
 ]

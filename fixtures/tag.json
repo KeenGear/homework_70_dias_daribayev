@@ -3,21 +3,21 @@
     "model": "todoapp.tag",
     "pk": 1,
     "fields": {
-        "name": "Enhancement"
+        "name": "In Progress"
     }
 },
 {
     "model": "todoapp.tag",
     "pk": 2,
     "fields": {
-        "name": "Bug"
+        "name": "Enchantments"
     }
 },
 {
     "model": "todoapp.tag",
     "pk": 3,
     "fields": {
-        "name": "Task"
+        "name": "Bug"
     }
 }
 ]
