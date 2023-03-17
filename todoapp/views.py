@@ -83,8 +83,7 @@ class ProjectListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         for project in context['projects']:
-            project.tasks.set(Task.objects.filter(project_id=project.id))
-            Project.objects.filter(is_deleted=False)
+            project.filtered_tasks = project.tasks.filter(is_finished=False)
         return context
 
 

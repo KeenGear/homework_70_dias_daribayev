@@ -35,9 +35,9 @@
                                     Tasks
                                 </button>
                                 <ul class="dropdown-menu">
-                                    {% for  task in project.tasks.all %}
+                                    {% for task in project.filtered_tasks.all %}
                                         <li>
-                                            <a href="#" class="dropdown-item">
+                                            <a href="{% url 'task_detail' task.pk %}" class="dropdown-item">
                                                 {{ task.summary }}
                                                 <span class="badge {% if task.status == 'New' %}bg-primary{% elif task.status == 'In Progress' %}bg-warning{% elif task.status == 'Done' %}bg-success{% endif %}">{{ task.status }}</span>
                                             </a>

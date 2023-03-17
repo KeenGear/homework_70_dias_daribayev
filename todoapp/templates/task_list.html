@@ -26,8 +26,16 @@
                         {% if user.is_superuser %}
                             <td><input type="checkbox" name="selected_tasks" value="{{ task.pk }}"></td>
                         {% endif %}
-                        <td>{{ task.summary|slice:":10" }}</td>
-                        <td>{{ task.description|slice:":20" }}</td>
+                        <td>
+                            <a class="text-black bg-white text-decoration-none" href="{% url 'task_detail' task.pk %}">
+                            {{ task.summary|slice:":10" }}
+                            </a>
+                        </td>
+                        <td>
+                            <a class="text-black bg-white text-decoration-none"  href="{% url 'task_detail' task.pk %}">
+                                {{ task.description|slice:":20" }}
+                            </a>
+                        </td>
                         <td>
                             <span class="badge {% if task.status == 'New' %}bg-primary{% elif task.status == 'In Progress' %}bg-warning{% elif task.status == 'Done' %}bg-success{% endif %}">{{ task.status }}
                             </span>

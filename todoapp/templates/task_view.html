@@ -13,6 +13,7 @@
                 {% endfor %}
             </li>
             <li class="list-group-item">{{ task.description }}</li>
+            <li class="list-group-item">{{ task.project_id }}</li>
         </ul>
         {% if user.is_superuser %}
             <div class="card-body">

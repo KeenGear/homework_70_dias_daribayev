@@ -18,7 +18,7 @@ class TaskForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['project_id'].queryset = Project.objects.all()
+        self.fields['project_id'].queryset = Project.objects.filter(is_deleted=False)
         self.fields['project_id'].empty_label = None
         self.fields['project_id'].label = 'Project'
 

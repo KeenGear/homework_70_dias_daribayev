@@ -16,12 +16,12 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'task_list' %}active{% endif %}"
-                       href="{% url 'task_list' %}">Tasks List</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'project_list' %}active{% endif %}"
                        href="{% url 'project_list' %}">Projects</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'task_list' %}active{% endif %}"
+                       href="{% url 'task_list' %}">Tasks List</a>
                 </li>
             </ul>
         </div>
