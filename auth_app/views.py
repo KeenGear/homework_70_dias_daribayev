@@ -1,6 +1,7 @@
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import render, redirect
 from django.views import View
+from .forms import SignUpForm
 
 
 class LoginView(View):
@@ -26,3 +27,15 @@ class LoginView(View):
 def logout_view(request):
     logout(request)
     return redirect('task_list')
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('task_list')
+    else:
+        form = SignUpForm()
+    return render(request, 'signup.html', {'form': form})
