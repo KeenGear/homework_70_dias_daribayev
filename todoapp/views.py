@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
@@ -123,6 +123,14 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
         queryset = super().get_queryset()
         return queryset
 
+    def dispatch(self, request, *args, **kwargs):
+        project = self.get_object()
+
+        if project.creator != self.request.user:
+            return HttpResponseForbidden('You are not allowed to update this project.')
+
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         return super().form_valid(form)
 
@@ -131,6 +139,14 @@ class ProjectDeleteView(LoginRequiredMixin, DeleteView):
     model = Project
     template_name = 'project/project_confirm_delete.html'
     success_url = reverse_lazy('project_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        project = self.get_object()
+
+        if project.creator != self.request.user:
+            return HttpResponseForbidden('You are not allowed to delete this project.')
+
+        return super().dispatch(request, *args, **kwargs)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

@@ -44,6 +44,7 @@ class Project(models.Model):
     is_deleted = models.BooleanField(default=False)
     tasks_id = models.ManyToManyField(Task, related_name='projects')
     members = models.ManyToManyField(User, related_name='projects')
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_projects', null=True)
 
     def delete(self, using=None, keep_parents=False):
         self.is_deleted = True

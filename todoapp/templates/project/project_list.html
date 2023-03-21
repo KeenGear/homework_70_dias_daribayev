@@ -70,7 +70,7 @@
                                 </ul>
                             </div>
                         </td>
-                        {% if user.groups.all.0.name == 'manager' or user.is_superuser %}
+                        {% if user.groups.all.0.name == 'manager' or user.groups.all.0.name == 'lead' or user.groups.all.0.name == 'dev' or user.is_superuser %}
                             <td>
                                 <div class="btn-group">
                                     <a href="{% url 'project_detail' project.pk %}"
