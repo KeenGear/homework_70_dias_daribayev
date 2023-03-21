@@ -8,7 +8,14 @@
         "start_date": "2023-03-12",
         "end_date": "2023-03-31",
         "is_deleted": false,
-        "tasks_id": []
+        "creator": 4,
+        "tasks_id": [
+            3,
+            4
+        ],
+        "members": [
+            1
+        ]
     }
 },
 {
@@ -19,8 +26,62 @@
         "description": "dasdmlaksmdlkas",
         "start_date": "2023-01-01",
         "end_date": "2023-03-31",
+        "is_deleted": true,
+        "creator": null,
+        "tasks_id": [],
+        "members": []
+    }
+},
+{
+    "model": "todoapp.project",
+    "pk": 3,
+    "fields": {
+        "name": "Project 101",
+        "description": "askdnalksndlka",
+        "start_date": "2023-03-17",
+        "end_date": "2023-04-28",
+        "is_deleted": true,
+        "creator": null,
+        "tasks_id": [],
+        "members": []
+    }
+},
+{
+    "model": "todoapp.project",
+    "pk": 6,
+    "fields": {
+        "name": "Capibara",
+        "description": "\"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"",
+        "start_date": "2023-03-10",
+        "end_date": "2023-03-05",
         "is_deleted": false,
-        "tasks_id": []
+        "creator": 5,
+        "tasks_id": [
+            11
+        ],
+        "members": [
+            3,
+            4
+        ]
+    }
+},
+{
+    "model": "todoapp.project",
+    "pk": 7,
+    "fields": {
+        "name": "Sommmma",
+        "description": "asdasdasdasd",
+        "start_date": "2023-03-01",
+        "end_date": "2023-03-31",
+        "is_deleted": false,
+        "creator": 3,
+        "tasks_id": [
+            12
+        ],
+        "members": [
+            3,
+            4
+        ]
     }
 }
 ]
