@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -42,6 +43,7 @@ class Project(models.Model):
     end_date = models.DateField(blank=True, null=True)
     is_deleted = models.BooleanField(default=False)
     tasks_id = models.ManyToManyField(Task, related_name='projects')
+    members = models.ManyToManyField(User, related_name='projects')
 
     def delete(self, using=None, keep_parents=False):
         self.is_deleted = True

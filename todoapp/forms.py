@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from .models import Project
 from .models import Task
@@ -36,11 +37,20 @@ class TaskForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
+    members = forms.ModelMultipleChoiceField(queryset=User.objects.all(), required=False)
+
     class Meta:
         model = Project
-        fields = ['name', 'description', 'start_date', 'end_date']
+        fields = ['name', 'description', 'start_date', 'end_date', 'members']
         widgets = {
             'description': forms.Textarea(attrs={'rows': 4}),
             'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
         }
+
+    def save(self, commit=True):
+        project = super().save(commit=False)
+        if commit:
+            project.save()
+            self.save_m2m()
+        return project

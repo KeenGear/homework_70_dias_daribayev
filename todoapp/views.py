@@ -87,16 +87,30 @@ class ProjectListView(ListView):
         return context
 
 
+class ProjectDetailView(DetailView):
+    template_name = 'project/project_view.html'
+    model = Project
+    context_object_name = 'project'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        project = context['project']
+        filtered_tasks = project.tasks.filter(is_finished=False)
+        context['filtered_tasks'] = filtered_tasks
+        return context
+
+
 class ProjectCreateView(LoginRequiredMixin, CreateView):
     model = Project
     form_class = ProjectForm
     template_name = 'project/project_form.html'
     success_url = reverse_lazy('project_list')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form_class()
-        return context
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        response = super().form_valid(form)
+        form.instance.members.add(self.request.user)
+        return response
 
 
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
@@ -105,11 +119,12 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'project/project_form.html'
     success_url = reverse_lazy('project_list')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if 'form' not in context:
-            context['form'] = self.form_class(instance=self.object)
-        return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset
+
+    def form_valid(self, form):
+        return super().form_valid(form)
 
 
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):

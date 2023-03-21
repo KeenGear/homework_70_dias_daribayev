@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="mb-4">{{ project.name }}</h1>
+        <p class="lead">{{ project.description }}</p>
+        <hr class="my-4">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <p class="mb-1"><strong>Start Date:</strong> {{ project.start_date|date:'Y-m-d' }}</p>
+                <p><strong>End Date:</strong> {{ project.end_date|date:'Y-m-d' }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Members:</strong>
+                    {% if project.members.all %}
+                        {% for member in project.members.all %}
+                            {{ member.username }}{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        No members
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <h2>Tasks:</h2>
+        {% if filtered_tasks %}
+            <ul class="list-group mb-4">
+                {% for task in filtered_tasks %}
+                    <li class="list-group-item">{{ task.summary }}</li>
+                    <span class="badge {% if task.status == 'New' %}bg-primary{% elif task.status == 'In Progress' %}bg-warning{% elif task.status == 'Done' %}bg-success{% endif %}">{{ task.status }}</span>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No unfinished tasks.</p>
+        {% endif %}
+        {% if user.groups.all.0.name == 'manager' or user.is_superuser %}
+            <div class="btn-group">
+                <a href="{% url 'project_delete' project.pk %}"
+                   class="btn btn-danger" role="button">Delete</a>
+                <a href="{% url 'project_update' project.pk %}"
+                   class="btn btn-secondary" role="button">Edit</a>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

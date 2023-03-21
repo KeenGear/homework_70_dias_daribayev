@@ -16,16 +16,17 @@
                     <th>Start Date</th>
                     <th>End Date</th>
                     <th>Task</th>
+                    <th>Members</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for project in projects %}
                     <tr>
-                        {% if user.is_superuser %}
+                        {% if user.groups.all.0.name == 'manager' or user.is_superuser %}
                             <td><input type="checkbox" name="selected_projects" value="{{ project.pk }}"></td>
                         {% endif %}
                         <td>{{ project.name }}</td>
-                        <td>{{ project.description }}</td>
+                        <td>{{ project.description|slice:":20" }}</td>
                         <td>{{ project.start_date|date:'Y-m-d' }}</td>
                         <td>{{ project.end_date|date:'Y-m-d' }}</td>
                         <td>
@@ -48,25 +49,44 @@
                                 </ul>
                             </div>
                         </td>
-                        <td>{{ project.created_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
-                        <td>{{ project.updated_at|date:'Y-m-d H:i:s'|slice:":16" }}</td>
-                        {% if user.is_superuser %}
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-light dropdown-toggle" type="button"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    Members
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% for member in project.members.all %}
+                                        <li>
+                                            <p class="dropdown-item text-center">
+                                                {{ member.username }}
+                                            </p>
+                                        </li>
+                                    {% empty %}
+                                        <li>
+                                            <p class="dropdown-item">No members</p>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </td>
+                        {% if user.groups.all.0.name == 'manager' or user.is_superuser %}
                             <td>
-                                <button type="button" class="btn btn-danger">
-                                    <a href="{% url 'project_delete' project.pk %}"
-                                       style="text-decoration: none; color: white">Delete</a>
-                                </button>
-                                <button type="button" class="btn btn-secondary">
+                                <div class="btn-group">
+                                    <a href="{% url 'project_detail' project.pk %}"
+                                       class="btn btn-secondary" role="button">View</a>
                                     <a href="{% url 'project_update' project.pk %}"
-                                       style="text-decoration: none; color: white">Edit</a>
-                                </button>
+                                       class="btn btn-secondary" role="button">Edit</a>
+                                    <a href="{% url 'project_delete' project.pk %}"
+                                       class="btn btn-danger" role="button">Delete</a>
+                                </div>
                             </td>
                         {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            {% if user.is_superuser %}
+            {% if user.groups.all.0.name == 'manager' or user.is_superuser %}
                 <button type="submit" class="btn btn-danger">Delete selected</button>
             {% endif %}
         </form>

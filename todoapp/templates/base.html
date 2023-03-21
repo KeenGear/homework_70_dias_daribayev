@@ -40,8 +40,10 @@
                     {% endif %}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                    {% if user.is_superuser %}
+                    {% if user.groups.all.0.name == 'manager' or user.groups.all.0.name == 'lead' or user.is_superuser %}
                         <li><a class="dropdown-item" href="{% url 'project_create' %}">Create New Project</a></li>
+                    {% endif %}
+                    {% if user.groups.all.0.name == 'manager' or user.groups.all.0.name == 'lead' or user.groups.all.0.name == 'dev' or user.is_superuser %}
                         <li><a class="dropdown-item" href="{% url 'task_create' %}">Create New Task</a></li>
                     {% endif %}
                     <li>
@@ -65,6 +67,7 @@
                                           d="M4.146 8.354a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H14.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3z"/>
                                 </svg>
                             </a>
+                            <a href="{% url 'registration' %}" class="dropdown-item">Register</a>
                         {% endif %}
                     </li>
                 </ul>
