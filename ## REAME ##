@@ -2,13 +2,13 @@ API Readme
 
 This API provides CRUD (Read, Update, Delete) functionality for a Project model.
 
-Endpoints
+## Endpoints ##
 
 GET /api/projects/<int:pk>/
 This endpoint returns the Project object with the given pk (primary key).
 
 
-Example Response:
+### Example Response: ###
 {
     "id": 1,
     "name": "Project 1",
